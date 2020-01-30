@@ -1,0 +1,158 @@
+import tkinter as tk
+from tkinter import *
+from collections import Counter
+from nltk.tokenize import sent_tokenize, word_tokenize
+from tkinter import filedialog
+from tkinter.messagebox import *
+
+
+filename = filedialog.askopenfile()
+fileReadyToRead = open(filename.name, 'r')
+file_contents = fileReadyToRead.read()
+
+data = file_contents
+
+leksi = word_tokenize(data)
+# ΕΔΩ ΑΛΛΑΖΩ ΤΑ ΣΗΜΕΙΑ ΣΤΙΞΗΣ ΓΙΑ ΝΑ ΚΟΠΟΥΝ ΣΩΣΤΑ ΟΙ ΠΡΟΤΑΣΕΙΣ
+leksi = [w.replace(';', '.') for w in leksi]
+leksi = [w.replace('!', '.') for w in leksi]
+protasi = sent_tokenize(data)
+
+# Lowercase ta grammata gia na ypologisoyn kai afta me ta kefalea
+leksi = [w.replace('α', 'Α') for w in leksi]
+leksi = [w.replace('ά', 'Α') for w in leksi]
+leksi = [w.replace('β', 'Β') for w in leksi]
+leksi = [w.replace('γ', 'Γ') for w in leksi]
+leksi = [w.replace('δ', 'Δ') for w in leksi]
+leksi = [w.replace('ε', 'Ε') for w in leksi]
+leksi = [w.replace('έ', 'Ε') for w in leksi]
+leksi = [w.replace('ζ', 'Ζ') for w in leksi]
+leksi = [w.replace('η', 'Η') for w in leksi]
+leksi = [w.replace('ή', 'Η') for w in leksi]
+leksi = [w.replace('θ', 'Θ') for w in leksi]
+leksi = [w.replace('ι', 'Ι') for w in leksi]
+leksi = [w.replace('ί', 'Ι') for w in leksi]
+leksi = [w.replace('κ', 'Κ') for w in leksi]
+leksi = [w.replace('λ', 'Λ') for w in leksi]
+leksi = [w.replace('μ', 'Μ') for w in leksi]
+leksi = [w.replace('ν', 'Ν') for w in leksi]
+leksi = [w.replace('ξ', 'Ξ') for w in leksi]
+leksi = [w.replace('ο', 'Ο') for w in leksi]
+leksi = [w.replace('ό', 'Ο') for w in leksi]
+leksi = [w.replace('π', 'Π') for w in leksi]
+leksi = [w.replace('ρ', 'Ρ') for w in leksi]
+leksi = [w.replace('σ', 'Σ') for w in leksi]
+leksi = [w.replace('τ', 'Τ') for w in leksi]
+leksi = [w.replace('υ', 'Υ') for w in leksi]
+leksi = [w.replace('ύ', 'Υ') for w in leksi]
+leksi = [w.replace('φ', 'Φ') for w in leksi]
+leksi = [w.replace('χ', 'Χ') for w in leksi]
+leksi = [w.replace('ψ', 'Ψ') for w in leksi]
+leksi = [w.replace('ω', 'Ω') for w in leksi]
+leksi = [w.replace('ώ', 'Ω') for w in leksi]
+leksi = [w.replace('ς', 'Σ') for w in leksi]
+
+a = len(protasi)
+b = len(leksi)
+mo = b / a
+
+stopwords = ['ΑΛΛΟΣ', 'άλλος', 'εγώ', 'ΕΓΩ', 'ΕΜΕΝΑ', 'ΕΜΕΙΣ', 'ΕΜΑΣ', 'ΜΟΥ', 'ΜΕ', 'ΜΑΣ', 'ΕΣΥ', 'ΕΣΕΝΑ', 'ΕΣΑΣ', 'ΣΟΥ', 'ΣΕ', 'ΣΑΣ', 'ΑΥΤΟΣ', 'ΑΥΤΟΥ', 'ΑΥΤΟΙ', 'ΑΥΤΩΝ', 'ΑΥΤΟΥΣ',
+             'ΤΟΣ', 'ΤΟΥ', 'ΤΟΝ', 'ΤΟΙ', 'ΤΟΥΣ', 'ΑΥΤΗ', 'ΑΥΤΗΣ', 'ΑΥΤΗΝ', 'ΑΥΤΕΣ', 'ΤΗ', 'ΤΗΣ', 'ΤΗΝ', 'ΤΕΣ', 'ΤΟΥΣ', 'ΤΙΣ', 'ΑΥΤΟ', 'ΑΥΤΟΥ', 'ΑΥΤΑ', 'ΤΟ', 'ΤΟΥ', 'ΤΑ', 'ΤΟΥΣ', 'ΕΣΕΙΣ', 'ΑΥΤΑ', 'ΣΤΗΝ', 'ΣΤΗ', 'ΣΤΑ',
+             'ΣΤΟ', 'ΣΤΟΝ', 'ΣΤΟΥΣ', 'ΣΤΩΝ', 'ΣΤΙΣ', 'Ο', 'Η', 'ΤΟ', 'ΟΙ', 'ΤΩΝ', 'ΤΟΥΣ',
+             'Η', 'ΤΗΣ', 'ΤΗ', 'ΤΙΣ', 'ΤΟΥ', 'ΤΑ', 'ΤΟΝ', 'ΤΗΝ', 'ΑΝΑ', 'ΠΑΡΑ', 'ΚΑΤΑ', 'ΔΙΑ', 'ΜΕΤΑ', 'ΑΝΤΙ',
+             'ΑΜΦΙ', 'ΠΕΡΙ', 'ΕΠΙ', 'ΑΠΟ', 'ΥΠΟ', 'ΥΠΕΡ', 'ΕΙΣ', 'ΕΝ', 'ΕΚ', 'ΕΞ',
+             'ΠΡΟ', 'ΠΡΟΣ', 'ΣΥΝ', 'ΑΧΡΙ', 'ΜΕΧΡΙ', 'ΑΝΕΥ', 'ΧΩΡΙΣ', 'ΠΛΗΝ', 'ΕΝΕΚΑ', 'ΕΝΕΚΕΝ', 'ΜΑ', 'ΝΗ',
+             'ΕΝΑΝΤΙΟΝ', 'ΕΝΑΝΤΙ', 'ΕΝΑΝΤΙΑ', 'ΩΣ', 'ΣΑΝ', 'ΓΙΑ', 'ΕΩΣ', 'ΠΡΟΤΟΥ', 'ΝΑ', 'ΑΝ', 'ΘΑ', 'ΕΙΝΑΙ',
+
+             'άλλος', 'εγώ', 'εμένα', 'εμείς', 'εμάς', 'μου', 'με', 'μας', 'εσύ',
+             'εσένα', 'εσάς', 'σου', 'σε', 'σας', 'αυτός', 'αυτού', 'αυτοί', 'αυτών', 'αυτούς',
+             'τος', 'του', 'τον', 'τοι', 'τους', 'αυτή', 'αυτής', 'αυτήν', 'αυτές', 'τη', 'της', 'την', 'τες', 'τους', 'τις', 'αυτό', 'αυτά', 'το', 'του', 'τα', 'τους', 'εσείς', 'στην', 'στη', 'στα',
+             'στο', 'στον', 'στους', 'στων', 'στις', 'ο', 'η', 'το', 'οι', 'των', 'τους',
+             'ή', 'της', 'τις', 'τα', 'ανα', 'ανά', 'παρά', 'κατά', 'διά', 'μετά', 'αντί',
+             'αμφί', 'περί', 'επί', 'επι', 'απο', 'υπο', 'υπέρ', 'εις', 'εν', 'εκ', 'εξ', 'προ', 'προς', 'συν', 'αρχι', 'μέχρι', 'άνευ', 'χωρίς', 'πλην', 'ένεκα', 'μα', 'νη',
+             'εναντίον', 'έναντι', 'ενάντια', 'ως', 'σαν', 'για', 'έως', 'προτού', 'να', 'αν', 'θα', 'είναι']
+
+for word in list(leksi):
+    if word in stopwords:
+        leksi.remove(word)
+
+arithmos = len(leksi)
+
+print(leksi)
+print(arithmos)
+
+
+filename2 = filedialog.askopenfile()
+fileReadyToRead = open(filename2.name, 'r')
+file_contents2 = fileReadyToRead.read()
+
+data2 = file_contents2
+
+leksi2 = word_tokenize(data2)
+# ΕΔΩ ΑΛΛΑΖΩ ΤΑ ΣΗΜΕΙΑ ΣΤΙΞΗΣ ΓΙΑ ΝΑ ΚΟΠΟΥΝ ΣΩΣΤΑ ΟΙ ΠΡΟΤΑΣΕΙΣ
+leksi2 = [w.replace(';', '.') for w in leksi2]
+leksi2 = [w.replace('!', '.') for w in leksi2]
+protasi2 = sent_tokenize(data2)
+
+# Lowercase ta grammata gia na ypologisoyn kai afta me ta kefalea
+leksi2 = [w.replace('α', 'Α') for w in leksi2]
+leksi2 = [w.replace('ά', 'Α') for w in leksi2]
+leksi2 = [w.replace('β', 'Β') for w in leksi2]
+leksi2 = [w.replace('γ', 'Γ') for w in leksi2]
+leksi2 = [w.replace('δ', 'Δ') for w in leksi2]
+leksi2 = [w.replace('ε', 'Ε') for w in leksi2]
+leksi2 = [w.replace('έ', 'Ε') for w in leksi2]
+leksi2 = [w.replace('ζ', 'Ζ') for w in leksi2]
+leksi2 = [w.replace('η', 'Η') for w in leksi2]
+leksi2 = [w.replace('ή', 'Η') for w in leksi2]
+leksi2 = [w.replace('θ', 'Θ') for w in leksi2]
+leksi2 = [w.replace('ι', 'Ι') for w in leksi2]
+leksi2 = [w.replace('ί', 'Ι') for w in leksi2]
+leksi2 = [w.replace('κ', 'Κ') for w in leksi2]
+leksi2 = [w.replace('λ', 'Λ') for w in leksi2]
+leksi2 = [w.replace('μ', 'Μ') for w in leksi2]
+leksi2 = [w.replace('ν', 'Ν') for w in leksi2]
+leksi2 = [w.replace('ξ', 'Ξ') for w in leksi2]
+leksi2 = [w.replace('ο', 'Ο') for w in leksi2]
+leksi2 = [w.replace('ό', 'Ο') for w in leksi2]
+leksi2 = [w.replace('π', 'Π') for w in leksi2]
+leksi2 = [w.replace('ρ', 'Ρ') for w in leksi2]
+leksi2 = [w.replace('σ', 'Σ') for w in leksi2]
+leksi2 = [w.replace('τ', 'Τ') for w in leksi2]
+leksi2 = [w.replace('υ', 'Υ') for w in leksi2]
+leksi2 = [w.replace('ύ', 'Υ') for w in leksi2]
+leksi2 = [w.replace('φ', 'Φ') for w in leksi2]
+leksi2 = [w.replace('χ', 'Χ') for w in leksi2]
+leksi2 = [w.replace('ψ', 'Ψ') for w in leksi2]
+leksi2 = [w.replace('ω', 'Ω') for w in leksi2]
+leksi2 = [w.replace('ώ', 'Ω') for w in leksi2]
+leksi2 = [w.replace('ς', 'Σ') for w in leksi2]
+
+a = len(protasi2)
+b = len(leksi2)
+mo = b / a
+
+stopwords = ['ΑΛΛΟΣ', 'άλλος', 'εγώ', 'ΕΓΩ', 'ΕΜΕΝΑ', 'ΕΜΕΙΣ', 'ΕΜΑΣ', 'ΜΟΥ', 'ΜΕ', 'ΜΑΣ', 'ΕΣΥ', 'ΕΣΕΝΑ', 'ΕΣΑΣ', 'ΣΟΥ', 'ΣΕ', 'ΣΑΣ', 'ΑΥΤΟΣ', 'ΑΥΤΟΥ', 'ΑΥΤΟΙ', 'ΑΥΤΩΝ', 'ΑΥΤΟΥΣ',
+             'ΤΟΣ', 'ΤΟΥ', 'ΤΟΝ', 'ΤΟΙ', 'ΤΟΥΣ', 'ΑΥΤΗ', 'ΑΥΤΗΣ', 'ΑΥΤΗΝ', 'ΑΥΤΕΣ', 'ΤΗ', 'ΤΗΣ', 'ΤΗΝ', 'ΤΕΣ', 'ΤΟΥΣ', 'ΤΙΣ', 'ΑΥΤΟ', 'ΑΥΤΟΥ', 'ΑΥΤΑ', 'ΤΟ', 'ΤΟΥ', 'ΤΑ', 'ΤΟΥΣ', 'ΕΣΕΙΣ', 'ΑΥΤΑ', 'ΣΤΗΝ', 'ΣΤΗ', 'ΣΤΑ',
+             'ΣΤΟ', 'ΣΤΟΝ', 'ΣΤΟΥΣ', 'ΣΤΩΝ', 'ΣΤΙΣ', 'Ο', 'Η', 'ΤΟ', 'ΟΙ', 'ΤΩΝ', 'ΤΟΥΣ',
+             'Η', 'ΤΗΣ', 'ΤΗ', 'ΤΙΣ', 'ΤΟΥ', 'ΤΑ', 'ΤΟΝ', 'ΤΗΝ', 'ΑΝΑ', 'ΠΑΡΑ', 'ΚΑΤΑ', 'ΔΙΑ', 'ΜΕΤΑ', 'ΑΝΤΙ',
+             'ΑΜΦΙ', 'ΠΕΡΙ', 'ΕΠΙ', 'ΑΠΟ', 'ΥΠΟ', 'ΥΠΕΡ', 'ΕΙΣ', 'ΕΝ', 'ΕΚ', 'ΕΞ',
+             'ΠΡΟ', 'ΠΡΟΣ', 'ΣΥΝ', 'ΑΧΡΙ', 'ΜΕΧΡΙ', 'ΑΝΕΥ', 'ΧΩΡΙΣ', 'ΠΛΗΝ', 'ΕΝΕΚΑ', 'ΕΝΕΚΕΝ', 'ΜΑ', 'ΝΗ',
+             'ΕΝΑΝΤΙΟΝ', 'ΕΝΑΝΤΙ', 'ΕΝΑΝΤΙΑ', 'ΩΣ', 'ΣΑΝ', 'ΓΙΑ', 'ΕΩΣ', 'ΠΡΟΤΟΥ', 'ΝΑ', 'ΑΝ', 'ΘΑ', 'ΕΙΝΑΙ', 'ΕΝΑ', 'ΠΟΥ', 'ΚΑΙ', 'ΩΣΤΕ', 'ΟΠΟΙΑ', 'ΠΙΟ', 'ΕΦΟΣΟΝ', 'ΔΕΝ', 'ΟΣΟ', ',', '.', ';',
+             ]
+
+for word in list(leksi2):
+    if word in stopwords:
+        leksi2.remove(word)
+
+arithmos2 = len(leksi2)
+
+print(leksi2)
+
+print(arithmos2)
+
+
+res = len(set(leksi) & set(leksi2)) / float(len(set(leksi) | set(leksi2))) * 100
+
+# printing result
+print("Percentage similarity among lists is : " + str(res))
